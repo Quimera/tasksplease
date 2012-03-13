@@ -130,8 +130,8 @@
 
         //default settings
         var settings = {
-            'sorteable': true, //allow sorting?
-        };
+            'sorteable': true //allow sorting?
+        }
 
         if (options) {
             $.extend(settings, options);
