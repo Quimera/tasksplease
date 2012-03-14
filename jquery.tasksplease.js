@@ -27,14 +27,33 @@
                 }
                 var task = $('<li/>');
                 task.text(text);
-                
-                task.append('<span class="remove">'+tp_i18n.delete_task+'</span>');
+
+                task.append('<a class="remove" href="#"><span>'+tp_i18n.delete_task+'</span></a>');
                 self.delete_event(task.find('.remove'), task);
                 taskmanager.append(task);
 
                 return task;
             },
 
+            /*
+             * Delete the task in the indicated index
+             * @param index, index of the objective task to delete in the textarea
+             */
+            delete_task: function(index) {
+                //remove the li element
+                element_to_delete = taskmanager.find('li')[index];
+                if ( element_to_delete !== undefined ) {
+                    $(element_to_delete).remove();
+
+                    //create and array and remove the deleted object from the
+                    //text area
+                    var text_area_list = item.val().split('\n');
+                    text_area_list.splice(index, 1);
+
+                    //then, recreate the data again.
+                    item.val(text_area_list.join('\n'));
+                }
+            },
             /*
              * creates all the basic structure for the tasks, if a textarea has
              * values, is going to recreate those like tasks
@@ -59,7 +78,7 @@
                 //lets create the "add new" task textarea
                 var add_new = $('<textarea type="text" name="task-description" \
                     class="task-description" rows="1" placeholder="'+tp_i18n.add_task+'"></textarea>');
-                
+
                 self.container.append(taskmanager)
                               .append(add_new)
                               .append('<input class="add_task" type="submit" value="'+tp_i18n.add+'"/>');
@@ -93,25 +112,17 @@
                     }
                     e.preventDefault()
                 });
-            }, 
-            
+            },
+
             delete_event: function(trigger, element_to_delete){
                 $(trigger).click(function(e){
                     var index = $(element_to_delete).index();
-                    $(element_to_delete).remove();
+                    self.delete_task(index);
 
-                    //create and array and remove the deleted object from the 
-                    //text area
-                    var text_area_list = item.val().split('\n');
-                    text_area_list.splice(index, 1);
-                    
-                    //then, recreate the data again.
-                    item.val(text_area_list.join('\n'));
-                    
                     e.preventDefault();
                 });
             },
-            
+
             edit_event: function(trigger, element_to_edit) {
                 $(trigger).click(function(e){
                     e.preventDefault();
