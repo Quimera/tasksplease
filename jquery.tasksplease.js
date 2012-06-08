@@ -26,10 +26,12 @@
                     position = -1;
                 }
                 var task = $('<li/>');
-                task.text(text);
+                task.append($('<span />', { text: text, 'class':'text' }));
 
-                task.append('<a class="remove" href="#"><span>'+tp_i18n.delete_task+'</span></a>');
+                task.append('<a class="edit" href="#"><span>'+tp_i18n.edit_task+'</span></a>')
+                    .append('<a class="remove" href="#"><span>'+tp_i18n.delete_task+'</span></a>');
                 self.delete_event(task.find('.remove'), task);
+                self.edit_event(task.find('.edit'), task);
                 taskmanager.append(task);
 
                 return task;
@@ -49,6 +51,24 @@
                     //text area
                     var text_area_list = item.val().split('\n');
                     text_area_list.splice(index, 1);
+
+                    //then, recreate the data again.
+                    item.val(text_area_list.join('\n'));
+                }
+            },
+            
+            /*
+             * Edit the task in the indicated index
+             * @param index, index of the objective task to edit in the textarea
+             */
+            edit_task: function(index, new_value) {
+                element_to_edit = taskmanager.find('li')[index];
+
+                if ( element_to_edit !== undefined ) {
+                    //create and array and remove the deleted object from the
+                    //text area
+                    var text_area_list = item.val().split('\n');
+                    text_area_list[index] = new_value;
 
                     //then, recreate the data again.
                     item.val(text_area_list.join('\n'));
@@ -125,6 +145,18 @@
 
             edit_event: function(trigger, element_to_edit) {
                 $(trigger).click(function(e){
+                    var index = element_to_edit.index();
+                    var edit = element_to_edit.find('.text');
+                    var t = edit.replaceWith('<input type="text" value="'+edit.text();+'">');
+
+                    //bind the enter key, when pressed just save and restore.
+                    element_to_edit.find('input').keypress(function(e) {
+                        if(e.which == 13) {
+                            $(this).replaceWith($('<span class="text"/>').text(this.value));
+                            self.edit_task(index, this.value);
+                        }
+                    });
+
                     e.preventDefault();
                 });
             }
