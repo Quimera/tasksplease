@@ -147,10 +147,12 @@
                 $(trigger).click(function(e){
                     var index = element_to_edit.index();
                     var edit = element_to_edit.find('.text');
-                    var t = edit.replaceWith('<input type="text" value="'+edit.text();+'">');
-
+                    
+                    edit.replaceWith('<input type="text" value="'+edit.text()+'">');
+                    var input = element_to_edit.find('input');
+                    input.select();
                     //bind the enter key, when pressed just save and restore.
-                    element_to_edit.find('input').keypress(function(e) {
+                    input.keypress(function(e) {
                         if(e.which == 13) {
                             $(this).replaceWith($('<span class="text"/>').text(this.value));
                             self.edit_task(index, this.value);
