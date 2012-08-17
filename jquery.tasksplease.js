@@ -118,7 +118,9 @@
                 item.hide();
 
                 //sort
-                self.make_sortable();
+                if (sorteable && jQuery.ui && 'sortable' in jQuery.ui) {
+                    self.make_sortable();
+                }
             },
 
             add_new_event: function(trigger){
