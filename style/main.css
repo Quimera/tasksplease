@@ -13,7 +13,11 @@
 .tasksplease li:hover {
     background-color:#E2E2E2;
 }
-
+.tasksplease .ui-state-highlight {
+    background-color:#ecf4ff;
+    outline:1px dotted #25962a;
+    min-height:1em;
+}
 .remove {
     background: url("../img/actions-sprite.png") no-repeat scroll -24px 0 transparent;
     height: 21px;

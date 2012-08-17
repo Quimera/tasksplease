@@ -74,6 +74,16 @@
                     item.val(text_area_list.join('\n'));
                 }
             },
+
+            make_sortable: function(){
+                taskmanager.sortable({
+                    placeholder: "ui-state-highlight",
+                    stop: function(event, ui) {
+                        var tasks_content = $.map( taskmanager.find('.text'), function (el) { return $(el).text() });
+                        item.val(tasks_content.join('\n'));                    }
+                });
+            },
+
             /*
              * creates all the basic structure for the tasks, if a textarea has
              * values, is going to recreate those like tasks
@@ -106,10 +116,12 @@
 
                 self.add_new_event(self.container.find('.add_task'));
                 item.hide();
+
+                //sort
+                self.make_sortable();
             },
 
             add_new_event: function(trigger){
-
                 $(trigger).click(function(e){
                     var description = $(this).siblings('.task-description');
                     var value = description.val();
