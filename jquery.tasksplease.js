@@ -33,6 +33,7 @@
                 self.delete_event(task.find('.remove'), task);
                 self.edit_event(task.find('.edit'), task);
                 taskmanager.append(task);
+                task.hide().fadeIn();
 
                 return task;
             },
@@ -45,7 +46,7 @@
                 //remove the li element
                 element_to_delete = taskmanager.find('li')[index];
                 if ( element_to_delete !== undefined ) {
-                    $(element_to_delete).remove();
+                    $(element_to_delete).fadeOut(300, function() { $(this).remove(); });
 
                     //create and array and remove the deleted object from the
                     //text area
